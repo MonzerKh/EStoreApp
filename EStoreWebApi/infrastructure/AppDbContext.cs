@@ -5,6 +5,7 @@ namespace EStoreWebApi.infrastructure
 {
     public class AppDbContext : DbContext
     {
+        #region config
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -21,15 +22,18 @@ namespace EStoreWebApi.infrastructure
         {
         }
 
-
-
-
-        public DbSet<Product> Products { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }
 
+        #endregion
+
+        public DbSet<Product> Products { get; set; }
+
+       public DbSet<Store> Stores { get; set; }
+
+
     }
+
 }
