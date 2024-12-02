@@ -3,6 +3,7 @@ using EStoreWebApi.infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EStoreWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202193553_ProductDetailUpdateProperty")]
+    partial class ProductDetailUpdateProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,25 +84,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.ToTable("ProductDetails");
-                });
-
-            modelBuilder.Entity("EStoreWebApi.AppCore.Entities.ProductDetail", b =>
-                {
-                    b.HasOne("EStoreWebApi.AppCore.Entities.Product", "Product")
-                        .WithMany("ProductDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("EStoreWebApi.AppCore.Entities.Product", b =>
-                {
-                    b.Navigation("ProductDetails");
                 });
 #pragma warning restore 612, 618
         }

@@ -13,15 +13,42 @@ namespace EStoreWebApi.Controllers
 
         public HomeController(AppDbContext appContext)
         {
-            appContext = appContext;
+            this.appContext = appContext;
         }
 
 
-        [HttpPost]
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult GetProduct()
         {
             var item = this.appContext.Products.ToList();
-            return View(item);
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetProductDetails() 
+        {
+            var items = this.appContext.ProductDetails.ToList(); 
+            return Ok(items);
+        }
+
+        [HttpGet]
+        public IActionResult GetProductById(int Id)
+        {
+            var item = this.appContext
+                .Products
+                .Where(r=>r.Id == Id)
+                .ToList();
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetProductDetailByProductId(int ProductId)
+        {
+            var item = this.appContext
+                .ProductDetails
+                .Where(r=>r.ProductId == ProductId)
+                .ToList();
+            return Ok(item);
         }
     }
 }
