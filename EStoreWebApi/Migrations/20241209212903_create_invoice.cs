@@ -25,27 +25,6 @@ namespace EStoreWebApi.Migrations
                     table.PrimaryKey("PK_Invoice", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Stores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Fax = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stores", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "InvoiceDetails",
@@ -89,8 +68,7 @@ namespace EStoreWebApi.Migrations
             migrationBuilder.DropTable(
                 name: "InvoiceDetails");
 
-            migrationBuilder.DropTable(
-                name: "Stores");
+            
 
             migrationBuilder.DropTable(
                 name: "Invoice");

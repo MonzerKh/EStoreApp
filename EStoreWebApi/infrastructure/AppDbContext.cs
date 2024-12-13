@@ -1,4 +1,5 @@
 ﻿using EStoreWebApi.AppCore.Entities;
+using EStoreWebApi.infrastructure.Fluents;
 using Microsoft.EntityFrameworkCore;
 
 namespace EStoreWebApi.infrastructure
@@ -24,7 +25,7 @@ namespace EStoreWebApi.infrastructure
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
-        public DbSet<Store> Stores { get; set; }
+        //public DbSet<Store> Stores { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -33,14 +34,7 @@ namespace EStoreWebApi.infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Product>()
-                .Property(u => u.ProductionCountry).HasMaxLength(250);
-            modelBuilder.Entity<Product>()
-                .Property(u => u.ProductName).HasMaxLength(250);
-            modelBuilder.Entity<Product>()
-                .Property(u => u.BarcodeCode).HasMaxLength(200);
-            modelBuilder.Entity<Product>()
-                .Property(u => u.Brand).HasMaxLength(200);
+            modelBuilder.ApplyConfiguration(new ProductFluent());
 
             modelBuilder.Entity<ProductDetail>()
                 .Property(u => u.Title).HasMaxLength(200);
@@ -59,15 +53,14 @@ namespace EStoreWebApi.infrastructure
                  .HasForeignKey(mast => mast.InvoiceId)
                  .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Invoice>()
-                 .HasOne(det => det.Customer)
-                 .WithMany(mast => mast.Invoices)
-                 .HasForeignKey(mast => mast.CustomerId)
-                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.ApplyConfiguration(new InvoiceFluent());
 
-
-            modelBuilder.Entity<Invoice>()
-              .Property(u => u.InvoiceDate).HasColumnType("datetime");
+      
+            
+            modelBuilder.Entity<InvoiceDetail>()
+              .Property(u => u.ProductPrice).HasColumnType("decimal(18,2)");   
+            modelBuilder.Entity<InvoiceDetail>()
+              .Property(u => u.Discount).HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Customer>()
                 .Property(u => u.CustomerName).HasMaxLength(250);
@@ -77,12 +70,6 @@ namespace EStoreWebApi.infrastructure
                 .Property(u => u.PhonNumber).HasMaxLength(250);
             modelBuilder.Entity<Customer>()
                 .Property(u => u.Email).HasMaxLength(250);
-
-            //modelBuilder.Entity<Product>().HasData(
-            //    new Product() { Product_Name = "Test" },
-            //    new Product() { Product_Name = "Test" });
-
-            //modelBuilder.Entity<Product>().HasOne()
         }
 
     }

@@ -4,6 +4,7 @@ using EStoreWebApi.infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EStoreWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213194212_AddInvoiceChange")]
+    partial class AddInvoiceChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("EStoreWebApi.AppCore.Entities.Invoice", b =>
@@ -78,7 +81,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("EStoreWebApi.AppCore.Entities.InvoiceDetail", b =>
@@ -110,7 +113,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("InvoiceDetails", (string)null);
+                    b.ToTable("InvoiceDetails");
                 });
 
             modelBuilder.Entity("EStoreWebApi.AppCore.Entities.Product", b =>
@@ -146,7 +149,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EStoreWebApi.AppCore.Entities.ProductDetail", b =>
@@ -175,7 +178,7 @@ namespace EStoreWebApi.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductDetails", (string)null);
+                    b.ToTable("ProductDetails");
                 });
 
             modelBuilder.Entity("EStoreWebApi.AppCore.Entities.Invoice", b =>

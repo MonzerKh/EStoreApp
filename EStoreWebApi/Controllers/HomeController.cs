@@ -51,12 +51,7 @@ namespace EStoreWebApi.Controllers
             return Ok(item);
         }
 
-
-        public IActionResult GetInvoice()
-        {
-            var item = this.appContext.Invoices.ToList();
-            return Ok(item);
-        }
+       
 
         [HttpGet]
         public IActionResult GetInvoiceDetails()
@@ -66,15 +61,7 @@ namespace EStoreWebApi.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetInvoceById(int InvoiceId)
-        {
-            var item = this.appContext
-                .Invoices
-                .Where(r => r.Id == InvoiceId)
-                .SingleOrDefault();
-            return Ok(item);
-        }
+       
 
         [HttpGet]
         public IActionResult GetIvoiceDetailByInvoiceId(int InvoiceId)
@@ -93,6 +80,7 @@ namespace EStoreWebApi.Controllers
             return Ok(item);
         }
 
+        [HttpGet]
         public IActionResult GetCustomerId(int CustomerId)
         {
             var item = this.appContext
@@ -102,17 +90,7 @@ namespace EStoreWebApi.Controllers
             return Ok(item);
         }
 
-        public IActionResult GetInvoiceTotal(int InvoiceId)
-        {
-            var item = this.appContext
-                    .InvoiceDetails.Sum(invoice => invoice.ProductPrice)
-                    .where(r => r.InvoiceId == InvoiceId);
-                    
-
-            //.Where(r => r.Id == CustomerId)
-            //.SingleOrDefault();
-            return Ok(item);
-        }
+       
 
     }
 }
