@@ -37,7 +37,7 @@ namespace EStoreWebApi.Controllers
             var item = this.appContext
                 .Products
                 .Where(r=>r.Id == Id)
-                .ToList();
+                .SingleOrDefault();
             return Ok(item);
         }
 
@@ -50,5 +50,70 @@ namespace EStoreWebApi.Controllers
                 .ToList();
             return Ok(item);
         }
+
+
+        public IActionResult GetInvoice()
+        {
+            var item = this.appContext.Invoices.ToList();
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetInvoiceDetails()
+        {
+            var items = this.appContext.InvoiceDetails.ToList();
+            return Ok(items);
+        }
+
+
+        [HttpGet]
+        public IActionResult GetInvoceById(int InvoiceId)
+        {
+            var item = this.appContext
+                .Invoices
+                .Where(r => r.Id == InvoiceId)
+                .SingleOrDefault();
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetIvoiceDetailByInvoiceId(int InvoiceId)
+        {
+            var item = this.appContext
+                .InvoiceDetails
+                .Where(r => r.InvoiceId == InvoiceId)
+                .ToList();
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetCustomer()
+        {
+            var item = this.appContext.Customers.ToList();
+            return Ok(item);
+        }
+
+        public IActionResult GetCustomerId(int CustomerId)
+        {
+            var item = this.appContext
+                .Customers
+                .Where(r => r.Id == CustomerId)
+                .SingleOrDefault();
+            return Ok(item);
+        }
+
+        public IActionResult GetInvoiceTotal(int InvoiceId)
+        {
+            var item = this.appContext
+                    .InvoiceDetails.Sum(invoice => invoice.ProductPrice)
+                    .where(r => r.InvoiceId == InvoiceId);
+                    
+
+            //.Where(r => r.Id == CustomerId)
+            //.SingleOrDefault();
+            return Ok(item);
+        }
+
     }
 }
+

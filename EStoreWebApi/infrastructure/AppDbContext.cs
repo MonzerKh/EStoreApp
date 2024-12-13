@@ -25,6 +25,9 @@ namespace EStoreWebApi.infrastructure
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,11 +46,37 @@ namespace EStoreWebApi.infrastructure
                 .Property(u => u.Title).HasMaxLength(200);
             modelBuilder.Entity<ProductDetail>()
                 .Property(u => u.DetailContent).HasMaxLength(250);
+
             modelBuilder.Entity<ProductDetail>()
                  .HasOne(det => det.Product)
                  .WithMany(mast => mast.ProductDetails)
                  .HasForeignKey(mast => mast.ProductId)
                  .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<InvoiceDetail>()
+                 .HasOne(det => det.Invoice)
+                 .WithMany(mast => mast.InvoiceDetails)
+                 .HasForeignKey(mast => mast.InvoiceId)
+                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Invoice>()
+                 .HasOne(det => det.Customer)
+                 .WithMany(mast => mast.Invoices)
+                 .HasForeignKey(mast => mast.CustomerId)
+                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Invoice>()
+              .Property(u => u.InvoiceDate).HasColumnType("datetime");
+
+            modelBuilder.Entity<Customer>()
+                .Property(u => u.CustomerName).HasMaxLength(250);
+            modelBuilder.Entity<Customer>()
+                .Property(u => u.CustomerSorName).HasMaxLength(250);
+            modelBuilder.Entity<Customer>()
+                .Property(u => u.PhonNumber).HasMaxLength(250);
+            modelBuilder.Entity<Customer>()
+                .Property(u => u.Email).HasMaxLength(250);
 
             //modelBuilder.Entity<Product>().HasData(
             //    new Product() { Product_Name = "Test" },
