@@ -9,7 +9,5 @@ public class Customer
     public string? PhonNumber { get; set; }
     public string? Email { get; set; }
     public List<Invoice> Invoices { get; set; }
-
-
-
+    public object ProductPrice { get; internal set; }
 }
