@@ -7,11 +7,11 @@ namespace EStoreWebApi.Controllers
     [ApiController]
     public class ProductDetailController : Controller
     {
-        public AppDbContext AppContext { get; }
+        private readonly AppDbContext appContext;
 
         public ProductDetailController(AppDbContext appContext)
         {
-            AppContext = appContext;
+            this.appContext = appContext;
         }
 
 

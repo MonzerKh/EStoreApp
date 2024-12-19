@@ -1,8 +1,7 @@
 ﻿namespace EStoreWebApi.AppCore.Entities;
 
-public class InvoiceDetail
+public class InvoiceDetail : BaseEntity<int>
 {
-    public int Id { get; set; }
     public int? InvoiceId { get; set; }
     public Invoice Invoice { get; set; }
     public int? ProductId { get; set; }
