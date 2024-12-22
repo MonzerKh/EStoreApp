@@ -1,9 +1,7 @@
 ﻿namespace EStoreWebApi.AppCore.Entities
 {
-    public class StoreProduct
-    {
-        public int Id { get; set; }
-        
+    public class StoreProduct : BaseEntity<int>
+    {  
         public int StoreId { get; set; }
         public Store Store { get; set; }
 

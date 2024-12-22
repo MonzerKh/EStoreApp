@@ -3,16 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EStoreWebApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class InvoiceDetailsController : Controller
-    {
-        private readonly AppDbContext appContext;
 
-        public InvoiceDetailsController(AppDbContext appContext)
-        {
-            this.appContext = appContext;
-        }
+    public class InvoiceDetailsController : BaseController
+    {
+        public InvoiceDetailsController(AppDbContext appContext) : base(appContext) { }
 
         [HttpGet]
         public IActionResult GetInvoiceDetails()

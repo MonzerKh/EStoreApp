@@ -1,8 +1,8 @@
 ﻿namespace EStoreWebApi.AppCore.Entities;
 
-public class Product
+public class Product:BaseEntity<int>
 {
-    public int Id { get; set; }
+
     public string ProductName { get; set; }
     public string? ProductionCountry { get; set; }
     public string? BarcodeCode { get; set;}

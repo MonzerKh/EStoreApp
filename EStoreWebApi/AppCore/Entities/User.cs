@@ -1,6 +1,6 @@
 ﻿namespace EStoreWebApi.AppCore.Entities
 {
-    public class User
+    public class User : BaseEntity<int>
     {
     }
 }

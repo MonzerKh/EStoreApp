@@ -1,6 +1,6 @@
 ﻿namespace EStoreWebApi.AppCore.Entities
 {
-    public class Receipt
+    public class Receipt : BaseEntity<int>
     {
     }
 }

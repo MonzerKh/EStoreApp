@@ -3,16 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EStoreWebApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class ProductController : Controller
-    {
-        private readonly AppDbContext appContext;
 
-        public ProductController(AppDbContext appContext)
-        {
-            this.appContext = appContext;
-        }
+    public class ProductController : BaseController
+    {
+        public ProductController(AppDbContext appContext):base(appContext) { }
+
 
         [HttpGet]
         public IActionResult GetProduct()
