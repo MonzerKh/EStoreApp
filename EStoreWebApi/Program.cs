@@ -1,4 +1,5 @@
 using EStoreWebApi.infrastructure;
+using EStoreWebApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -17,6 +18,11 @@ var connectionSting = builder.Configuration.GetConnectionString("SqlConnection")
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(connectionSting);
+});
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile(new DtoMapProfile());
 });
 
 var app = builder.Build();

@@ -13,4 +13,17 @@ public class BaseController : Controller
     {
         this.appContext = appContext;
     }
+
+    //public (bool Status, ApiResponse<T>) ValidateModelState<T>()
+    //{
+    //    if (!ModelState.IsValid)
+    //        return (false, new ApiResponse<T>()
+    //        {
+    //            Status = StatusEnum.ModelStateInvalid,
+    //            Data = default(T),
+    //            Message = AppConfiguration.GetStateErrorMessage(ModelState)
+    //        });
+    //    return (true, null);
+
+    //}
 }
