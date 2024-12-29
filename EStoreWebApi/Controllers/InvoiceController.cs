@@ -1,4 +1,7 @@
-﻿using EStoreWebApi.infrastructure;
+﻿using AutoMapper;
+using EStoreWebApi.AppCore.DomainDto;
+using EStoreWebApi.AppCore.Entities;
+using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EStoreWebApi.Controllers
@@ -6,8 +9,27 @@ namespace EStoreWebApi.Controllers
 
     public class InvoiceController : BaseController
     {
-        public InvoiceController(AppDbContext appContext) :base(appContext) { }
-       
+        private readonly IMapper mapper;
+        public InvoiceController(AppDbContext appContext,IMapper mapper) :base(appContext)
+        {
+            this.mapper = mapper;
+        }
+
+
+        public IActionResult InsertInvoice(InvoiceInsDto cust)
+        {
+
+            var item = mapper.Map<Invoice>(cust);
+
+            this.appContext.Invoices.Add(item);
+
+            this.appContext.SaveChanges();
+
+            return Ok(item.Id);
+        }
+
+
+
         [HttpGet]
         public IActionResult GetInvoice()
         {

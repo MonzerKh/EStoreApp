@@ -2,7 +2,7 @@
 
 namespace EStoreWebApi.AppCore.DomainDto;
 
-public class CustomerUpdDto : CustomerInsDto
+public class CustomerUpdDto : InvoiceInsDto
 {
     [Required(ErrorMessage ="Id Is Requird faild")]
     public int? Id { get; set; }

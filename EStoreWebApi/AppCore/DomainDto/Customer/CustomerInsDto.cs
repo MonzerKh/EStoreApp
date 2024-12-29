@@ -2,7 +2,7 @@
 
 namespace EStoreWebApi.AppCore.DomainDto;
 
-public class CustomerInsDto
+public class InvoiceInsDto
 {
     public string? CustomerName { get; set; }
     public string? CustomerSorName { get; set; }

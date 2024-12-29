@@ -18,7 +18,7 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public IActionResult InsertCustomer(CustomerInsDto cust)
+    public IActionResult InsertCustomer(InvoiceInsDto cust)
     {
         //var item = new Customer()
         //{

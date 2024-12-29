@@ -1,4 +1,8 @@
-﻿using EStoreWebApi.infrastructure;
+﻿using AutoMapper;
+using EStoreWebApi.AppCore.DomainDto.Product;
+using EStoreWebApi.AppCore.DomainDto.ProductDetail;
+using EStoreWebApi.AppCore.Entities;
+using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EStoreWebApi.Controllers
@@ -6,8 +10,24 @@ namespace EStoreWebApi.Controllers
 
     public class ProductDetailController : BaseController
     {
-        public ProductDetailController(AppDbContext appContext):base(appContext) { }
 
+        private readonly IMapper mapper;
+        public ProductDetailController(AppDbContext appContext, IMapper mapper) : base(appContext)
+        {
+            this.mapper = mapper;
+        }
+
+        public IActionResult InsertProductDetail(ProductDetailInsDto cust)
+        {
+
+            var item = mapper.Map<ProductDetail>(cust);
+
+            this.appContext.ProductDetails.Add(item);
+
+            this.appContext.SaveChanges();
+
+            return Ok(item.Id);
+        }
 
         [HttpGet]
         public IActionResult GetProductDetails()
