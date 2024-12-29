@@ -15,6 +15,7 @@ namespace EStoreWebApi.Controllers
             this.mapper = mapper;
         }
 
+        [HttpPost]
         public IActionResult InsertInvoiceDetails(InvoiceDetailInsDto cust)
         {
 
