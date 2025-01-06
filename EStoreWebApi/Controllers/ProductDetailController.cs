@@ -30,6 +30,31 @@ namespace EStoreWebApi.Controllers
             return Ok(item.Id);
         }
 
+        [HttpPost]
+        public IActionResult UpdateProductDetl(ProductDetailUpDto ProdDetl)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var item = this.appContext.Invoices.Find(ProdDetl.Id);
+
+            if (item == null)
+            {
+                return NotFound($"The Id Requested Is Not Exists : {ProdDetl.Id}");
+            }
+
+            this.mapper.Map(ProdDetl, item);
+
+            this.appContext.Invoices.Update(item);
+
+            var IsUpdate = this.appContext.SaveChanges() > 0;
+
+            return Ok(IsUpdate);
+        }
+
         [HttpGet]
         public IActionResult GetProductDetails()
         {

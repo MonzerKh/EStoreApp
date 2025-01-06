@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.DomainDto.InvoiceDetail;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
@@ -27,6 +28,39 @@ namespace EStoreWebApi.Controllers
 
             return Ok(item.Id);
         }
+
+        [HttpPost]
+        public IActionResult UpdateInvoiceDetails(InvoiceDetailUpDto invDetls)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var item = this.appContext.Invoices.Find(invDetls.Id);
+
+            if (item == null)
+            {
+                return NotFound($"The Id Requested Is Not Exists : {invDetls.Id}");
+            }
+
+            //var IsCustomerExists = this.appContext.Customers.Find(invDetls.CustomerId);
+
+            //if (IsCustomerExists == null)
+            //{
+            //    return NotFound($"The Customer Id Requested Is Not Exists : {invDetls.CustomerId}");
+            //}
+
+            this.mapper.Map(invDetls, item);
+
+            this.appContext.Invoices.Update(item);
+
+            var IsUpdate = this.appContext.SaveChanges() > 0;
+
+            return Ok(IsUpdate);
+        }
+
 
 
         [HttpGet]
