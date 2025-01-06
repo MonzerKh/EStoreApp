@@ -3,6 +3,7 @@ using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EStoreWebApi.Controllers
 {
@@ -10,7 +11,7 @@ namespace EStoreWebApi.Controllers
     public class InvoiceController : BaseController
     {
         private readonly IMapper mapper;
-        public InvoiceController(AppDbContext appContext,IMapper mapper) :base(appContext)
+        public InvoiceController(AppDbContext appContext, IMapper mapper) : base(appContext)
         {
             this.mapper = mapper;
         }
@@ -60,23 +61,83 @@ namespace EStoreWebApi.Controllers
             return Ok(IsUpdate);
         }
 
-
-
-        [HttpGet]
-        public IActionResult GetInvoice()
+        [HttpPost]
+        public IActionResult DeleteInvoice(int Id)
         {
-            var item = this.appContext.Invoices.ToList();
-            return Ok(item);
+            var item = this.appContext.Invoices.Find(Id);
+
+            if (item == null)
+            {
+                return NotFound("No Invoice Found");
+            }
+
+            this.appContext.Invoices.Remove(item);
+
+            var status = this.appContext.SaveChanges() > 0;
+
+            return Ok(status);
         }
 
+
+
+        ////[HttpGet]
+        ////public IActionResult GetInvoice()
+        ////{
+        ////    var item = this.appContext.Invoices.ToList();
+        ////    return Ok(item);
+        ////}
+
+        //[HttpGet]
+        //public IActionResult GetInvoceById(int InvoiceId)
+        //{
+        //    var item = this.appContext
+        //        .Invoices
+        //        .Where(r => r.Id == InvoiceId)
+        //        .SingleOrDefault();
+        //    return Ok(item);
+        //}
+
         [HttpGet]
-        public IActionResult GetInvoceById(int InvoiceId)
+        public IActionResult GetInvoice([FromQuery]InvoiceFilter? filter)
         {
-            var item = this.appContext
-                .Invoices
-                .Where(r => r.Id == InvoiceId)
-                .SingleOrDefault();
-            return Ok(item);
+            var query = this.appContext.Invoices.AsQueryable();
+
+            if (filter?.CustomerName != null)
+            {
+                query = query.Where(r => r.Customer.CustomerName == filter.CustomerName);
+            }
+
+            if (filter?.CustomerId != null)
+            {
+                query = query.Where(r => r.CustomerId == filter.CustomerId);
+            }
+
+            if (filter?.InvoiceNote != null)
+            {
+                query = query.Where(r => r.InvoiceNote == filter.InvoiceNote);
+            }
+
+            if (filter?.InvoiceTotalMax != null)
+            {
+                query = query.Where(r => r.InvoiceTotal <= filter.InvoiceTotalMax);
+            }
+
+            if (filter?.InvoiceTotalMin != null)
+            {
+                query = query.Where(r => r.InvoiceTotal >= filter.InvoiceTotalMin);
+            }
+
+            if(filter?.InvoiceId !=null)
+            {
+                query = query.Where(r => r.Id == filter.InvoiceId);
+            }
+
+            var qstring = query.ToQueryString();
+
+            var result = query.ToList();
+
+            return Ok(result);
+
         }
 
         [HttpGet]
