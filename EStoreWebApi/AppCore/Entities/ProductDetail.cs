@@ -10,3 +10,4 @@ public class ProductDetail : BaseEntity<int>
     public string? Description { get; set; }
 
 }
+

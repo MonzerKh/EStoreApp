@@ -4,6 +4,7 @@ using EStoreWebApi.AppCore.DomainDto.InvoiceDetail;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EStoreWebApi.Controllers
 {
@@ -61,6 +62,42 @@ namespace EStoreWebApi.Controllers
             return Ok(IsUpdate);
         }
 
+        [HttpGet]
+        public IActionResult GetInvoiceDetail([FromQuery] InvoiceDetailFilter? filter)
+        {
+            var query = this.appContext.InvoiceDetails.AsQueryable();
+
+            if (filter?.Invoice != null)
+            {
+                query = query.Where(r => r.Invoice == filter.Invoice);
+            }
+
+            if (filter?.ProductId != null)
+            {
+                query = query.Where(r => r.ProductId == filter.ProductId);
+            }
+
+            if (filter?.ProductPrice != null)
+            {
+                query = query.Where(r => r.ProductPrice == filter.ProductPrice);
+            }
+
+            if (filter?.Discount != null)
+            {
+                query = query.Where(r => r.Discount == filter.Discount);
+            }
+
+            if (filter?.amount != null)
+            {
+                query = query.Where(r => r.amount >= filter.amount);
+            }
+
+            var qstring = query.ToQueryString();
+
+            var result = query.ToList();
+
+            return Ok(result);
+        }
 
 
         [HttpGet]

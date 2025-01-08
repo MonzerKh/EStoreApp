@@ -4,6 +4,7 @@ using EStoreWebApi.AppCore.DomainDto.ProductDetail;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EStoreWebApi.Controllers
 {
@@ -55,6 +56,33 @@ namespace EStoreWebApi.Controllers
             return Ok(IsUpdate);
         }
 
+        [HttpGet]
+        public IActionResult GetProductDetail([FromQuery] ProductDetailFilter? filter)
+        {
+            var query = this.appContext.ProductDetails.AsQueryable();
+
+            if (filter?.Title != null)
+            {
+                query = query.Where(r => r.Title == filter.Title);
+            }
+
+            if (filter?.DetailContent != null)
+            {
+                query = query.Where(r => r.DetailContent == filter.DetailContent);
+            }
+
+            if (filter?.Description != null)
+            {
+                query = query.Where(r => r.Description == filter.Description);
+            }
+
+            var qstring = query.ToQueryString();
+
+            var result = query.ToList();
+
+            return Ok(result);
+        }
+        
         [HttpGet]
         public IActionResult GetProductDetails()
         {

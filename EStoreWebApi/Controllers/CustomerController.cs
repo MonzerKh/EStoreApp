@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using EStoreWebApi.AppCore.DomainDto;
+using EStoreWebApi.AppCore.DomainDto.Customer;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EStoreWebApi.Controllers;
 
@@ -80,6 +82,49 @@ public class CustomerController : BaseController
         }
 
     }
+    
+    [HttpGet]
+    public IActionResult GetCustomer([FromQuery] CustomerFilter? filter)
+    {
+        var query = this.appContext.Customers.AsQueryable();
+
+        if (filter?.CustomerName != null)
+        {
+            query = query.Where(r => r.CustomerName == filter.CustomerName);
+        }
+
+        if (filter?.CustomerSorName != null)
+        {
+            query = query.Where(r => r.CustomerSorName == filter.CustomerSorName);
+        }
+
+        if (filter?.BirthDate != null)
+        {
+            query = query.Where(r => r.BirthDate == filter.BirthDate);
+        }
+
+        if (filter?.PhonNumber != null)
+        {
+            query = query.Where(r => r.PhonNumber == filter.PhonNumber);
+        }
+
+        if (filter?.Email != null)
+        {
+            query = query.Where(r => r.Email == filter.Email);
+        }
+
+        if (filter?.ProductPrice != null)
+        {
+            query = query.Where(r => r.ProductPrice == filter.ProductPrice);
+        }
+
+        var qstring = query.ToQueryString();
+
+        var result = query.ToList();
+
+        return Ok(result);
+    }
+
 
     [HttpPost]
     public IActionResult DeleteCustomer(int Id)

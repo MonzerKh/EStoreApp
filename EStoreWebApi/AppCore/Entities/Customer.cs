@@ -10,3 +10,4 @@ public class Customer : BaseEntity<int>
     public decimal ProductPrice { get; set; }
     public List<Invoice>? Invoices { get; set; }
 }
+

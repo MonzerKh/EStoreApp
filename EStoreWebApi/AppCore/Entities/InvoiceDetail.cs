@@ -10,3 +10,5 @@ public class InvoiceDetail : BaseEntity<int>
     public decimal? Discount { get; set; }
     public int amount { get; set; }
 }
+
+
