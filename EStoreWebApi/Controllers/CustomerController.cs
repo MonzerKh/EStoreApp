@@ -20,7 +20,7 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public IActionResult InsertCustomer(InvoiceInsDto cust)
+    public IActionResult InsertCustomer(CustomerInsDto cust)
     {
         //var item = new Customer()
         //{
@@ -90,7 +90,7 @@ public class CustomerController : BaseController
 
         if (filter?.CustomerName != null)
         {
-            query = query.Where(r => r.CustomerName == filter.CustomerName);
+            query = query.Where(r => r.CustomerName.Contains(filter.CustomerName) );
         }
 
         if (filter?.CustomerSorName != null)
@@ -111,11 +111,6 @@ public class CustomerController : BaseController
         if (filter?.Email != null)
         {
             query = query.Where(r => r.Email == filter.Email);
-        }
-
-        if (filter?.ProductPrice != null)
-        {
-            query = query.Where(r => r.ProductPrice == filter.ProductPrice);
         }
 
         var qstring = query.ToQueryString();
@@ -146,20 +141,20 @@ public class CustomerController : BaseController
 
 
 
-    [HttpGet]
-    public IActionResult GetCustomer()
-    {
-        var item = this.appContext.Customers.ToList();
-        return Ok(item);
-    }
+    //[HttpGet]
+    //public IActionResult GetCustomer()
+    //{
+    //    var item = this.appContext.Customers.ToList();
+    //    return Ok(item);
+    //}
 
-    [HttpGet]
-    public IActionResult GetCustomerId(int CustomerId)
-    {
-        var item = this.appContext
-            .Customers
-            .Where(r => r.Id == CustomerId)
-            .SingleOrDefault();
-        return Ok(item);
-    }
+    //[HttpGet]
+    //public IActionResult GetCustomerId(int CustomerId)
+    //{
+    //    var item = this.appContext
+    //        .Customers
+    //        .Where(r => r.Id == CustomerId)
+    //        .SingleOrDefault();
+    //    return Ok(item);
+    //}
 }

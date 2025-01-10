@@ -10,6 +10,4 @@ public class CustomerInsDto
     public string? PhonNumber { get; set; }
     public string? Email { get; set; }
 
-    [Range(1,int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
-    public decimal ProductPrice { get; set; }
 }

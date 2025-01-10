@@ -7,7 +7,6 @@ public class Customer : BaseEntity<int>
     public DateTime? BirthDate { get; set; }
     public string? PhonNumber { get; set; }
     public string? Email { get; set; }
-    public decimal ProductPrice { get; set; }
     public List<Invoice>? Invoices { get; set; }
 }
 

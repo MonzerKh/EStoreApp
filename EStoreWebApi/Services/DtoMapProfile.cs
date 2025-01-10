@@ -17,8 +17,8 @@ public class DtoMapProfile : Profile
     public DtoMapProfile()
     {
 
-        CreateMap<Customer, InvoiceInsDto>();
-        CreateMap<InvoiceInsDto, Customer>();
+        CreateMap<Customer, CustomerInsDto>();
+        CreateMap<CustomerInsDto, Customer>();
 
         CreateMap<Customer, CustomerUpdDto>();
         CreateMap<CustomerUpdDto, Customer>();

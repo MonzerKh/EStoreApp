@@ -67,11 +67,6 @@ namespace EStoreWebApi.Controllers
         {
             var query = this.appContext.InvoiceDetails.AsQueryable();
 
-            if (filter?.Invoice != null)
-            {
-                query = query.Where(r => r.Invoice == filter.Invoice);
-            }
-
             if (filter?.ProductId != null)
             {
                 query = query.Where(r => r.ProductId == filter.ProductId);

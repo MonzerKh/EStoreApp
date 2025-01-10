@@ -9,7 +9,7 @@ namespace EStoreWebApi.AppCore.DomainDto.Customer
         public DateTime? BirthDate { get; set; }
         public string? PhonNumber { get; set; }
         public string? Email { get; set; }
-        public decimal ProductPrice { get; set; }
+
 
     }
 }

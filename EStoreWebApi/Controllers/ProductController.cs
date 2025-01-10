@@ -39,7 +39,7 @@ namespace EStoreWebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var item = this.appContext.Invoices.Find(Prod.Id);
+            var item = this.appContext.Products.Find(Prod.Id);
 
             if (item == null)
             {
@@ -48,7 +48,7 @@ namespace EStoreWebApi.Controllers
 
             this.mapper.Map(Prod, item);
 
-            this.appContext.Invoices.Update(item);
+            this.appContext.Products.Update(item);
 
             var IsUpdate = this.appContext.SaveChanges() > 0;
 
@@ -56,7 +56,7 @@ namespace EStoreWebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetInvoiceProduct([FromQuery] ProductFilter? filter)
+        public IActionResult GetProduct([FromQuery] ProductFilter? filter)
         {
             var query = this.appContext.Products.AsQueryable();
 
