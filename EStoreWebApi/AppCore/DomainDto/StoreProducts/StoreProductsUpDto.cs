@@ -1,7 +1,6 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.StoreProducts
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class StoreProductsUpDto: StoreProductsInsDto
 {
-    public class StoreProductsUpDto: StoreProductsInsDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

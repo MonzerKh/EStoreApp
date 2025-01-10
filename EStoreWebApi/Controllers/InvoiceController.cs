@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
@@ -100,11 +101,13 @@ namespace EStoreWebApi.Controllers
         [HttpGet]
         public IActionResult GetInvoice([FromQuery]InvoiceFilter? filter)
         {
-            var query = this.appContext.Invoices.AsQueryable();
+            var query = this.appContext.Invoices
+                .ProjectTo<InvoiceReadDto>(mapper.ConfigurationProvider)
+                .AsQueryable();
 
             if (filter?.CustomerName != null)
             {
-                query = query.Where(r => r.Customer.CustomerName == filter.CustomerName);
+                query = query.Where(r => r.CustomerName!.Contains( filter.CustomerName));
             }
 
             if (filter?.CustomerId != null)
@@ -127,7 +130,7 @@ namespace EStoreWebApi.Controllers
                 query = query.Where(r => r.InvoiceTotal >= filter.InvoiceTotalMin);
             }
 
-            if(filter?.InvoiceId !=null)
+            if (filter?.InvoiceId !=null)
             {
                 query = query.Where(r => r.Id == filter.InvoiceId);
             }
@@ -135,6 +138,8 @@ namespace EStoreWebApi.Controllers
             var qstring = query.ToQueryString();
 
             var result = query.ToList();
+
+
 
             return Ok(result);
 

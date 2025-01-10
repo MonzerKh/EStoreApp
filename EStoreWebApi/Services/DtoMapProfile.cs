@@ -1,13 +1,5 @@
 ﻿using AutoMapper;
 using EStoreWebApi.AppCore.DomainDto;
-using EStoreWebApi.AppCore.DomainDto.InvoiceDetail;
-using EStoreWebApi.AppCore.DomainDto.Product;
-using EStoreWebApi.AppCore.DomainDto.ProductDetail;
-using EStoreWebApi.AppCore.DomainDto.ProductType;
-using EStoreWebApi.AppCore.DomainDto.Receipt;
-using EStoreWebApi.AppCore.DomainDto.Store;
-using EStoreWebApi.AppCore.DomainDto.StoreProducts;
-using EStoreWebApi.AppCore.DomainDto.Users;
 using EStoreWebApi.AppCore.Entities;
 
 namespace EStoreWebApi.Services;
@@ -23,11 +15,31 @@ public class DtoMapProfile : Profile
         CreateMap<Customer, CustomerUpdDto>();
         CreateMap<CustomerUpdDto, Customer>();
 
-        CreateMap<Invoice,InvoiceInsDto>();
+        CreateMap<Invoice, InvoiceInsDto>();
         CreateMap<InvoiceInsDto, Invoice>();
 
         CreateMap<InvoiceDetail, InvoiceDetailInsDto>();
         CreateMap<InvoiceDetailInsDto, InvoiceDetail>();
+
+        CreateMap<Invoice, InvoiceReadDto>()
+            .ForMember(dest =>
+                dest.TotalProductPrice,
+                opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(x => x.ProductPrice)))
+            .ForMember(dest =>
+                dest.TotalDiscount,
+                opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(r => r.Discount)))
+            .ForMember(dest =>
+                dest.InvoiceTotal,
+                opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(x => x.ProductPrice - x.Discount)))
+            .ForMember(dest =>
+            dest.CustomerName,
+            opt => opt.MapFrom(r => r.Customer.CustomerName + " " + r.Customer.CustomerSorName))
+
+            .ForMember(dest=>
+                dest.InvoiceDetails,
+                opt => opt.MapFrom(r=>r.InvoiceDetails))
+            ;
+        CreateMap<InvoiceReadDto, Invoice>();
 
         CreateMap<Product, ProductInsDto>();
         CreateMap<ProductInsDto, Product>();

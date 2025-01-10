@@ -12,7 +12,7 @@ public class InvoiceFluent : BaseFluent<Invoice>
         base.Configure(builder);
 
         builder.Property(u => u.InvoiceDate).HasColumnType("datetime");
-        builder.Property(u => u.InvoiceTotal).HasColumnType("decimal(18,2)");
+       // builder.Property(u => u.InvoiceTotal).HasColumnType("decimal(18,2)");
 
 
         builder

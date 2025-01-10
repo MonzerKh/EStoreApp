@@ -1,7 +1,6 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.Receipt
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class ReceiptUPDto: ReceiptInsDto
 {
-    public class ReceiptUPDto: ReceiptInsDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

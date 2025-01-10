@@ -1,7 +1,6 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.ProductType
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class ProductTypeUpDto: ProductTypeInsDto
 {
-    public class ProductTypeUpDto: ProductTypeInsDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

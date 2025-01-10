@@ -1,7 +1,6 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.InvoiceDetail
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class InvoiceDetailUpDto : InvoiceDetailInsDto
 {
-    public class InvoiceDetailUpDto : InvoiceDetailInsDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

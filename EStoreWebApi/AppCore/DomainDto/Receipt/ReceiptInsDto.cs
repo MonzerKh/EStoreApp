@@ -1,6 +1,5 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.Receipt
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class ReceiptInsDto
 {
-    public class ReceiptInsDto
-    {
-    }
 }

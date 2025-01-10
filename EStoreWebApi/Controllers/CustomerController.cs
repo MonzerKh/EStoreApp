@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using EStoreWebApi.AppCore.DomainDto;
-using EStoreWebApi.AppCore.DomainDto.Customer;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
 using Microsoft.AspNetCore.Mvc;

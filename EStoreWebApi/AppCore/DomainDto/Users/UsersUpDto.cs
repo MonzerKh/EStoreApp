@@ -1,7 +1,6 @@
-﻿namespace EStoreWebApi.AppCore.DomainDto.Users
+﻿namespace EStoreWebApi.AppCore.DomainDto;
+
+public class UsersUpDto: UsersInsDto
 {
-    public class UsersUpDto: UsersInsDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }
