@@ -95,21 +95,21 @@ namespace EStoreWebApi.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetInvoiceDetails()
-        {
-            var items = this.appContext.InvoiceDetails.ToList();
-            return Ok(items);
-        }
+        //[HttpGet]
+        //public IActionResult GetInvoiceDetails()
+        //{
+        //    var items = this.appContext.InvoiceDetails.ToList();
+        //    return Ok(items);
+        //}
 
-        [HttpGet]
-        public IActionResult GetIvoiceDetailByInvoiceId(int InvoiceId)
-        {
-            var item = this.appContext
-                .InvoiceDetails
-                .Where(r => r.InvoiceId == InvoiceId)
-                .ToList();
-            return Ok(item);
-        }
+        //[HttpGet]
+        //public IActionResult GetIvoiceDetailByInvoiceId(int InvoiceId)
+        //{
+        //    var item = this.appContext
+        //        .InvoiceDetails
+        //        .Where(r => r.InvoiceId == InvoiceId)
+        //        .ToList();
+        //    return Ok(item);
+        //}
     }
 }
