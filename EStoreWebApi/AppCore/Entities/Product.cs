@@ -7,9 +7,10 @@ public class Product:BaseEntity<int>
     public string? ProductionCountry { get; set; }
     public string? BarcodeCode { get; set;}
     public string? Brand { get; set;}
+    public decimal? ProductPrice { get; set; }
     public string? Description { get; set; }
     public int? Counter { get; set; }
-    public List<ProductDetail> ProductDetails { get; set; }
+    public List<ProductDetail>? ProductDetails { get; set; }
 
 
     //public List<ProductDetail> ProductDetails { get; set; }

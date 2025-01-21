@@ -8,8 +8,6 @@ public class Invoice : BaseEntity<int>
     public string? InvoiceNote { get; set; }
 
     public List<InvoiceDetail>? InvoiceDetails { get; set; }
-
-
 }
 
 

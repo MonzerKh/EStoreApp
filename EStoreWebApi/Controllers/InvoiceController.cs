@@ -140,7 +140,6 @@ namespace EStoreWebApi.Controllers
             var result = query.ToList();
 
 
-
             return Ok(result);
 
         }

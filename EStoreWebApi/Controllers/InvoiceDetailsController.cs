@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
@@ -64,11 +65,42 @@ namespace EStoreWebApi.Controllers
         [HttpGet]
         public IActionResult GetInvoiceDetail([FromQuery] InvoiceDetailFilter? filter)
         {
-            var query = this.appContext.InvoiceDetails.AsQueryable();
+                var query = this.appContext.InvoiceDetails
+                .ProjectTo<InvoiceDetailReadDto>(mapper.ConfigurationProvider)
+                .AsQueryable();
 
-            if (filter?.ProductId != null)
+            if (filter?.Id != null)
             {
-                query = query.Where(r => r.ProductId == filter.ProductId);
+                query = query.Where(r => r.Id == filter.Id);
+            }
+            if (filter?.InvoiceId != null)
+            {
+                query = query.Where(r => r.InvoiceId == filter.InvoiceId);
+            }
+
+            if (filter?.InvoiceDate != null)
+            {
+                query = query.Where(r => r.InvoiceDate == filter.InvoiceDate);
+            }
+
+            if (filter?.InvoiceNote != null)
+            {
+                query = query.Where(r => r.InvoiceNote!.Contains( filter.InvoiceNote));
+            }
+
+            if (filter?.ProductName != null)
+            {
+                query = query.Where(r => r.ProductName!.Contains(filter.ProductName));
+            }
+
+            if (filter?.Brand != null)
+            {
+                query = query.Where(r => r.Brand!.Contains(filter.Brand));
+            }
+
+            if (filter?.Description != null)
+            {
+                query = query.Where(r => r.Description!.Contains(filter.Description));
             }
 
             if (filter?.ProductPrice != null)
@@ -83,7 +115,12 @@ namespace EStoreWebApi.Controllers
 
             if (filter?.amount != null)
             {
-                query = query.Where(r => r.amount >= filter.amount);
+                query = query.Where(r => r.amount == filter.amount);
+            }
+
+            if (filter?.TotalPrice != null)
+            {
+                query = query.Where(r => r.TotalPrice == filter.TotalPrice);
             }
 
             var qstring = query.ToQueryString();

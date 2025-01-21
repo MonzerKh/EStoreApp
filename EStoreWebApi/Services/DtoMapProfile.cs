@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EStoreWebApi.AppCore.DomainDto;
+using EStoreWebApi.AppCore.DomainDto.Product;
 using EStoreWebApi.AppCore.Entities;
 
 namespace EStoreWebApi.Services;
@@ -8,7 +9,6 @@ public class DtoMapProfile : Profile
 {
     public DtoMapProfile()
     {
-
         CreateMap<Customer, CustomerInsDto>();
         CreateMap<CustomerInsDto, Customer>();
 
@@ -21,7 +21,30 @@ public class DtoMapProfile : Profile
         CreateMap<InvoiceDetail, InvoiceDetailInsDto>();
         CreateMap<InvoiceDetailInsDto, InvoiceDetail>();
 
-        CreateMap<Invoice, InvoiceReadDto>()
+        CreateMap<InvoiceDetail, InvoiceDetailReadDto>()
+            .ForMember(dest =>
+                dest.InvoiceDate,
+                opt => opt.MapFrom(r => r.Invoice.InvoiceDate))
+            .ForMember(dest =>
+                dest.InvoiceNote,
+                opt => opt.MapFrom(r => r.Invoice.InvoiceNote))
+
+            .ForMember(dest =>
+                dest.ProductName,
+                opt => opt.MapFrom(r => r.Product.ProductName))
+            .ForMember(dest =>
+                dest.Brand,
+                opt => opt.MapFrom(r => r.Product.Brand))
+             .ForMember(dest =>
+                dest.Description,
+                opt => opt.MapFrom(r => r.Product.Description))
+             .ForMember(dest =>
+                dest.TotalPrice,
+                opt => opt.MapFrom(r => (r.ProductPrice - r.Discount) * r.amount));
+
+        CreateMap<InvoiceDetailReadDto, InvoiceDetail>();
+
+    CreateMap<Invoice, InvoiceReadDto>()
             .ForMember(dest =>
                 dest.TotalProductPrice,
                 opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(x => x.ProductPrice)))
@@ -30,7 +53,7 @@ public class DtoMapProfile : Profile
                 opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(r => r.Discount)))
             .ForMember(dest =>
                 dest.InvoiceTotal,
-                opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(x => x.ProductPrice - x.Discount)))
+                opt => opt.MapFrom(r => r.InvoiceDetails!.Sum(x => (x.ProductPrice - x.Discount) * x.amount)))
             .ForMember(dest =>
             dest.CustomerName,
             opt => opt.MapFrom(r => r.Customer.CustomerName + " " + r.Customer.CustomerSorName))
@@ -40,6 +63,11 @@ public class DtoMapProfile : Profile
                 opt => opt.MapFrom(r=>r.InvoiceDetails))
             ;
         CreateMap<InvoiceReadDto, Invoice>();
+
+        //CreateMap<Product, ProductReadDto>()
+        //    .ForMember(dest => dest.)
+        //    ;
+        //CreateMap<ProductReadDto, Product>();
 
         CreateMap<Product, ProductInsDto>();
         CreateMap<ProductInsDto, Product>();
@@ -61,13 +89,5 @@ public class DtoMapProfile : Profile
 
         CreateMap<User, UsersInsDto>();
         CreateMap<UsersInsDto, User>();
-
-
-
-
-
-
-
-
     }
 }
