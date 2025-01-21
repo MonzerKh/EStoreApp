@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
+using EStoreWebApi.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +13,20 @@ namespace EStoreWebApi.Controllers
     public class InvoiceController : BaseController
     {
         private readonly IMapper mapper;
-        public InvoiceController(AppDbContext appContext, IMapper mapper) : base(appContext)
+        private readonly ICustomerRepository customerRep;
+
+        public InvoiceController(
+            AppDbContext appContext, 
+            IMapper mapper,
+            ICustomerRepository customerRep) : base(appContext)
         {
             this.mapper = mapper;
+            this.customerRep = customerRep;
         }
 
         [HttpPost]
         public IActionResult InsertInvoice(InvoiceInsDto inv)
         {
-
             var item = mapper.Map<Invoice>(inv);
 
             this.appContext.Invoices.Add(item);

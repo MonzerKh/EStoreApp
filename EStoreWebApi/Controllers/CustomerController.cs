@@ -2,6 +2,7 @@
 using EStoreWebApi.AppCore.DomainDto;
 using EStoreWebApi.AppCore.Entities;
 using EStoreWebApi.infrastructure;
+using EStoreWebApi.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,36 +10,19 @@ namespace EStoreWebApi.Controllers;
 
 public class CustomerController : BaseController
 {
-    private readonly IMapper mapper;
+    private readonly ICustomerRepository customerRep;
 
-    public CustomerController(
-        AppDbContext appContext,
-        IMapper mapper) : base(appContext)
+    public CustomerController(ICustomerRepository customerRep)
     {
-        this.mapper = mapper;
+        this.customerRep = customerRep;
     }
 
     [HttpPost]
     public IActionResult InsertCustomer(CustomerInsDto cust)
     {
-        //var item = new Customer()
-        //{
-        //    CustomerName = cust.CustomerName,
-        //    CustomerSorName = cust.CustomerSorName,
-        //    BirthDate = cust.BirthDate,
-        //    PhonNumber = cust.PhonNumber,
-        //    Email = cust.Email,
-        //    ProductPrice = cust.ProductPrice
-        //};
-
-        var item = mapper.Map<Customer>(cust);
-
-        this.appContext.Customers.Add(item);
-
-        this.appContext.SaveChanges();
-
-        return Ok(item.Id);
+        return Ok(customerRep.Insert(cust));
     }
+
 
     [HttpPost]
     public IActionResult UpdateCustomer([FromBody] CustomerUpdDto cust)
@@ -50,30 +34,14 @@ public class CustomerController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var item = this.appContext.Customers.Find(cust.Id);
+            var result = customerRep.Update(cust);
 
-            if (item == null)
+            if (result == null)
             {
                 return NotFound($"The Id Requested Is Not Exists : {cust.Id}");
             }
 
-
-            this.mapper.Map(cust,item);
-
-           
-            //item.CustomerName = cust.CustomerName;
-            //item.CustomerSorName = cust.CustomerSorName;
-            //item.BirthDate = cust.BirthDate;
-            //item.PhonNumber = cust.PhonNumber;
-            //item.Email = cust.Email;
-            //item.ProductPrice = cust.ProductPrice;
-
-
-            this.appContext.Customers.Update(item);
-
-            this.appContext.SaveChanges();
-
-            return Ok(true);
+            return Ok(result);
         }
         catch (Exception ex)
         {
@@ -81,79 +49,27 @@ public class CustomerController : BaseController
         }
 
     }
-    
+
     [HttpGet]
     public IActionResult GetCustomer([FromQuery] CustomerFilter? filter)
     {
-        var query = this.appContext.Customers.AsQueryable();
-
-        if (filter?.CustomerName != null)
-        {
-            query = query.Where(r => r.CustomerName.Contains(filter.CustomerName) );
-        }
-
-        if (filter?.CustomerSorName != null)
-        {
-            query = query.Where(r => r.CustomerSorName == filter.CustomerSorName);
-        }
-
-        if (filter?.BirthDate != null)
-        {
-            query = query.Where(r => r.BirthDate == filter.BirthDate);
-        }
-
-        if (filter?.PhonNumber != null)
-        {
-            query = query.Where(r => r.PhonNumber == filter.PhonNumber);
-        }
-
-        if (filter?.Email != null)
-        {
-            query = query.Where(r => r.Email == filter.Email);
-        }
-
-        var qstring = query.ToQueryString();
-
-        var result = query.ToList();
-
-        return Ok(result);
+        return Ok(customerRep.Get(filter));
     }
 
 
     [HttpPost]
     public IActionResult DeleteCustomer(int Id)
     {
-        var item = this.appContext.Customers.Find(Id);
-
-        if (item == null)
-        {
+        var result = customerRep.Delete(Id);
+       
+        if (result == null)
             return NotFound($"The Id Requested Is Not Exists : {Id}");
-        }
 
-        this.appContext.Customers.Remove(item);
-
-        this.appContext.SaveChanges();
-
-        return Ok(true);
+        return Ok(result);
 
     }
 
 
 
-    //[HttpGet]
-    //public IActionResult GetCustomer()
-    //{
-    //    var item = this.appContext.Customers.ToList();
-    //    return Ok(item);
-    //}
 
-    //[HttpGet]
-    //public IActionResult GetCustomerId(int CustomerId)
-    //{
-    //    var item = this.appContext
-    //        .Customers
-    //        .Where(r => r.Id == CustomerId)
-    //        .SingleOrDefault();
-    //    return Ok(item);
-    //}
 }

@@ -1,4 +1,6 @@
 using EStoreWebApi.infrastructure;
+using EStoreWebApi.IRepository;
+using EStoreWebApi.Repository;
 using EStoreWebApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,9 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new DtoMapProfile());
 });
+
+
+builder.Services.AddTransient<ICustomerRepository,CustomerRepository>();
 
 var app = builder.Build();
 

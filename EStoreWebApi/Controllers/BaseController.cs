@@ -14,6 +14,11 @@ public class BaseController : Controller
         this.appContext = appContext;
     }
 
+    public BaseController()
+    {
+
+    }
+
     //public (bool Status, ApiResponse<T>) ValidateModelState<T>()
     //{
     //    if (!ModelState.IsValid)
